@@ -1,0 +1,14 @@
+# Liam Tolbert, lct4am, 10/19/2021
+
+CXX=clang++ -O2 $(CXXFLAGS)
+CXXFLAGS=-Wall
+DEBUG=-g
+
+hash: HashTable.o wordPuzzle.o
+	$(CXX) $(DEBUG) HashTable.o wordPuzzle.o
+HashTable.o: HashTable.cpp HashTable.h
+wordPuzzle.o: wordPuzzle.cpp HashTable.h
+
+.PHONY: clean
+clean:
+	-rm -f *.o *~a.out
