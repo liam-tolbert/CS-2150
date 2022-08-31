@@ -1,0 +1,99 @@
+#include <iostream>
+
+using namespace std;
+
+struct PuzzNode
+{
+  int puzzle[3][3];
+
+  int x, y;
+
+  int cost;
+
+  int level;
+};
+
+PuzzNode* newNode(int puzz[3][3], int x1, int y1, int x2, int y2, int level){
+  PuzzNode* node = new PuzzNode;
+
+  node->puzzle = puzz;
+
+  swap(node->puzzle[x1][y1], node->puzzle[x2][y2]);
+  
+  node->level = level;
+
+  node->cost = 2147483647;
+
+  node->x1 = x2;
+  node->y1 = y2;
+
+  return node;
+}
+
+bool isSafe(int x, int y){
+  return x >= 0 && x < 3 && y >= 0 && y < 3;
+}
+
+bool isSolvable(int puzzle[3][3]){
+  int inversions = 0;
+  for(int i = 0; i < 2; i++)
+    for(int j = i + 1; j < 3; j++)
+      if(puzzle[j][i] > 0 && puzzle[j][i] > puzzle[i][j])
+	inversions++;
+
+  return inversions % 2 == 0;
+}
+
+bool isSolved(int puzzle[3][3]){
+  int prev = 0;
+  for(int i = 0; i < 3; i++)
+    for(int j = 0; j < 3; j++){
+      if(puzzle[i][j] != 0){
+	if(prev >= puzzle[i][j]){
+	  return false;
+	}
+	prev = puzzle[i][j];
+      }
+    }
+  return true;
+}
+
+void printList(int puzzle[3][3]){
+  for(int i = 0; i < 3; i++){
+    for(int j = 0; j < 3; j++){
+      cout << puzzle[i][j] << " ";
+    }
+    cout << endl;
+  }
+}
+
+vector<PuzzNode> generateNeighbors(int puzzle[3][3]){
+
+  
+  if(x != 0){
+      a.swap(x, y, x - 1, y);
+      neighbors.push_back(a);
+    }
+
+    PuzzNode b(node);
+    if(x != 2){
+      b.swap(x, y, x + 1, y);
+      neighbors.push_back(b);
+    }
+
+    PuzzNode c(node);
+    if(y != 0){
+      c.swap(x, y, x, y - 1);
+      neighbors.push_back(c);
+    }
+
+    PuzzNode d(node);
+    if(y != 2){
+      d.swap(x, y, x, y + 1);
+      neighbors.push_back(d);
+    }
+}
+
+int main(){
+
+}

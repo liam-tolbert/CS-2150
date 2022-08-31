@@ -1,0 +1,12 @@
+CXX=clang++ -std=c++11 $(CXXFLAGS)
+CXXFLAGS=-Wall -O2
+DEBUG=-g
+
+puzzle: PuzzNode.o 8numPuzzle.o
+	$(CXX) $(DEBUG) PuzzNode.o 8numPuzzle.o
+PuzzNode.o: PuzzNode.cpp PuzzNode.h
+8numPuzzle.o: 8numPuzzle.cpp PuzzNode.h
+
+.PHONY: clean
+clean:
+	-rm -f *.o *~a.out

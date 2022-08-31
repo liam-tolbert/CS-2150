@@ -1,0 +1,43 @@
+#include <iostream>
+#include "PuzzNode.h"
+using namespace std;
+
+PuzzNode::PuzzNode(){
+  puzzle = new int[3][3];
+}
+
+PuzzNode::PuzzNode(int input[]){
+  setPuzzle(input);
+}
+PuzzNode::~Puzznode(){
+  delete[] puzzle;
+}
+
+void PuzzNode::setPuzzle(int input[]){
+  int k = 0;
+  for(int i = 0; i < 3; i++)
+    for(int j = 0; j < 3; j++){
+      puzzle[i][j] = input[k];
+      k++;
+    }
+}
+
+void PuzzNode::swap(int i1, int j1, int i2, int j2){
+  int temp = puzzle[i1][j1];
+  puzzle[i1][j1] = puzzle[i2][j2];
+  puzzle[i2][j2] = temp;
+}
+
+bool PuzzNode::isSolved(){
+  int prev = 0;
+  for(int i = 0; i < 3; i++)
+    for(int j = 0; j < 3; j++){
+      if(puzzle[i][j] != 0){
+	if(prev >= puzzle[i][j]){
+	  return false;
+	}
+	prev = puzzle[i][j];
+      }
+    }
+  return true;
+}
