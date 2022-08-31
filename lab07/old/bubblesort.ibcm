@@ -1,0 +1,117 @@
+C00E 000	jmp	start	skip around the variables
+0000 001 zero	dw	0
+0001 002 one	dw	1
+000A 003 n	dw	10	size of the array
+0070 004 a	dw		array base address
+0000 005 i	dw	0	increment for first loop
+0009 006 j	dw	9	decrement for second loop (n-1)
+0000 007 temp	dw	0	temporary location for swap
+6000 008 sub	dw	0	subtraction command
+3000 009 load	dw	0	load command
+4000 00A store	dw	0	store command
+0000 00B 			leave space for changes
+0000 00C
+0000 00D
+1000 00E start	readH		read 10 inputs
+4070 00F	store	a[0]
+1000 010	readH
+4071 011	store	a[1]
+1000 012	readH
+4072 013	store	a[2]
+1000 014	readH
+4073 015	store	a[3]
+1000 016	readH
+4074 017	store	a[4]
+1000 018	readH
+4075 019	store	a[5]
+1000 01A	readH
+4076 01B	store	a[6]
+1000 01C	readH
+4077 01D	store	a[7]
+1000 01E	readH
+4078 01F	store	a[8]
+1000 020	readH
+4079 021	store	a[9]
+3003 022 loop1	load	n	if (i >= n) go to prnt
+6005 023	sub	i
+E05A 024	jmpl	prnt
+D05A 025	jmpe	prnt
+3006 026 loop2	load	j	if (j <= i) increment i and reset j
+6005 027	sub	i
+E053 028	jmpl	inc
+D053 029 	jmpe	inc
+3008 02A	load	sub	"subtract a[j]"
+5004 02B    	add	a
+5006 02C	add	j
+4034 02D	store	subit
+3009 02E	load	load	"load a[j-1]"
+5004 02F	add	a
+5006 030	add	j
+6002 031	sub	one
+4033 032	store	loadit
+0000 033 loadit dw	0	if (a[j] >= a[j-1]) decrement j
+0000 034 subit	dw	0
+E04F 035	jmpl	decj
+D04F 036	jmpe	decj
+3009 037	load	loadc	otherwise, swap: temp = a[j];
+5004 038	add	a
+5006 039	add	j
+403B 03A	store	loadit
+0000 03B loadit dw	0
+4007 03C    	store	tmp
+3009 03D 	load	load	a[j] = a[j-1];	
+5004 03E	add	a
+5006 03F	add	j
+6002 040	sub	one
+4046 041	store	loadit
+300A 042 	load	str
+5004 043	add	a
+5006 044	add	j
+4047 045	store	strit
+0000 046 loadit dw	0
+0000 047 strit	dw	0
+300A 048	load	str	a[j-1] = temp;
+5004 049	add	a
+5006 04A	add	j
+6002 04B	sub	one
+404E 04C	store	strit
+3007 04D 	load	tmp
+0000 04E strit	dw	0
+3006 04F dec	load	j	j--;
+6002 050	sub	one
+4006 051	store	j
+C026 052	jmp	loop2	repeat second loop
+3005 053 inc	load	i	i++;
+5002 054	add	one
+4005 055	store	i
+3003 056    	load	n	make j = 9 again
+6002 057	sub	one
+4006 058	store	j
+C022 059	jmp	loop2	go to loop1
+3070 05A print	load	a[0]
+1800 05B 	printH
+3071 05C	load	a[1]
+1800 05D	printH
+3072 05E	load	a[2]
+1800 05F	printH
+3073 060	load	a[3]
+1800 061	printH
+3074 062	load	a[4]
+1800 063	printH
+3075 064	load	a[5]
+1800 065	printH
+3076 066	load	a[6]
+1800 067	printH
+3077 068	load	a[7]
+1800 069	printH
+3078 06A	load	a[8]
+1800 06B	printH
+3079 06C	load	a[9]
+1800 06D	printH
+0000 06E xit	halt
+
+
+
+
+
+

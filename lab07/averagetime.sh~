@@ -1,0 +1,17 @@
+#!/bin/bash
+
+read numIterations
+QUIT="quit"
+if [[ "$numIterations" == "$QUIT" ]]
+then
+    exit 4
+else
+    sum=0
+    for i in {1..5}
+    do
+	RUNNING_TIME=`./a.out $numIterations | tail -1`
+	echo $RUNNING_TIME
+	sum=$(($sum+$RUNNING_TIME))
+    done
+    echo $((sum/5))
+fi

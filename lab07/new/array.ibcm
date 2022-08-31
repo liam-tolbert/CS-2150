@@ -1,0 +1,74 @@
+C016 000	jmp 	start 	skip around the variables
+0000 001 size	dw	0	int size
+0000 002 i	dw	0	int i
+0000 003 zero	dw	0	
+0000 004 one	dw	1
+3000 005 prntf	dw	0	load instruction for forwards print, all contain load opcode
+3000 006 prntb	dw	0	load instruction for backwards print
+4000 007 stor	dw	4000	load instruction for store location
+0047 008 a	dw	0	int a[]
+0000 009 			leave space for array changes
+0000 00A
+0000 00B
+0000 00C					
+0000 00D
+0000 00E
+0000 00F
+0000 010
+0000 011
+0000 012
+0000 013
+0000 014
+0000 015
+0000 016 start	readH		read array size
+4001 017 	store	size
+3001 018 loop	load	size	if i >= n, goto print forward loop for second step
+6002 019	sub	i	if n - i is...
+E026 01A	jumpl	pfLoop	less than 0? (i > n)
+D026 01B	jumpe	pfLoop	equal to 0? (i == n), otherwise...
+3007 01C	load	stor
+5008 01D	add	a
+5002 01E	add 	i
+4021 01F	store	doit	store instruction + address of current element
+1000 020	readH		read element from input to insert
+0000 021 doit	dw	0	store it!
+3002 022 	load	i
+5004 023	add	1	i++
+4002 024	store	i
+C018 025	jmp	loop
+3003 026 ----	load	zero	reset i to 0 for iteration, start of print forward loop
+4002 027	store	i
+3001 028 pfor	load	size	if i >= n, goto print backward loop for last step
+6002 029	sub	i	same as before with n - i
+E036 02A	jmpl	pbLoop	
+D036 02B	jmpe	pbLoop
+3005 02C	load	prntf
+5008 02D	add	a
+5002 02E	add	i
+4030 02F	store	doit
+0000 030 doit	dw	0	same as before, except printing now
+1800 031	printH
+3002 032 	load	i
+5004 033	add	one	i++
+4002 034	store	i
+C028 035	jmp	pfor
+3003 036 ----	load	zero	i=0
+4002 037	store	i
+3001 038 pback	load	size
+6002 039 	sub	i
+E048 03A	jmpl	xit	if i >= n goto xit
+D048 03B	jmpe	xit	
+3006 03C	load	prntb
+5008 03D	add	a
+5001 03E	add 	size
+6002 03F	sub	i
+6004 040	sub	one
+4042 041	store	doit
+0000 042 doit	dw	0
+1800 043	printH
+3002 044	load	i
+5004 045	add	one
+4002 046	store	i
+C038 047	jmp	pbLoop
+0000 046 xit	halt
+

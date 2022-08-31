@@ -1,0 +1,22 @@
+3004 000	load	zero
+4005 001	store 	i
+C009 002	jmp	start
+0001 003 one	dw	1
+0000 004 zero	dw	0
+0000 005 i	dw	0	int i
+0015 006 s	dw		program's size
+3000 007 loadC	dw	3000	load command
+4000 008 storeC	dw	4000	store command
+3006 009 start	load	size	if i is greater than s, goto end
+6005 00A 	sub	i
+E015 00B	jmpl	xit
+3007 00C	load	loadC	load command otherwise
+5005 00D	add	i
+400F 00E	store   doit
+0000 00F doit	dw	0
+1800 010 	printH
+3005 011	load	i
+5003 012	add	one
+4005 013	store	i
+C009 014	jmp	start
+0000 015	xit	halt

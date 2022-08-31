@@ -1,0 +1,150 @@
+C00E 000	jmp 	start 	skip around the variables
+0000 001 i 	dw 	0 	int i
+0010 002 size 	dw 	10 	int size
+0000 003 zero	dw	0
+0001 004 one	dw	1
+3000 005 print	dw	0
+4000 006 stor	dw	0
+0009 007 j	dw	9	int j
+0000 008 temp	dw	0	int temp
+0000 009 aj	dw	0	a[j]
+0000 00A aj-1	dw	0	a[j-1]
+0009 00B nine	dw	9
+0080 00C a	dw	0	int a[]
+0000 00D
+1000 00E start	readH		read 10 inputs
+4080 00F	store	a[0]
+1000 010	readH
+4081 011	store	a[1]
+1000 012	readH
+4082 013	store	a[2]
+1000 014	readH
+4083 015	store	a[3]
+1000 016	readH
+4084 017	store	a[4]
+1000 018	readH
+4085 019	store	a[5]
+1000 01A	readH
+4086 01B	store	a[6]
+1000 01C	readH
+4087 01D	store	a[7]
+1000 01E	readH
+4088 01F	store	a[8]
+1000 020	readH
+4089 021	store	a[9]
+3002 022 loop1	load	size	if i >= n, goto output
+6001 023	sub	i
+E043 024	jmpl	print
+D043 025	jmpe	print
+3007 026 loop2	load	j	if j <= i, then goto increment
+6001 027	sub	i
+E03D 028	jmpl	inc
+D03D 029	jmpe	inc
+300C 02A	load	a	store a[j] and a[j-1] for use inside if statement
+5007 02B	add	j
+4009 02C	store	a[j]
+6004 02D	sub	one
+400A 02E	store	a[j-1]	
+300A 02F ifst	load	a[j-1]	if a[j-1] - a[j] <= 0
+6009 030	sub	a[j]
+E039 031	jmpl	dec	
+D039 032	jmpe	dec
+3009 033	load	a[j]	temp = a[j]
+4008 034	store	temp
+300A 035	load	a[j-1]	a[j] = a[j-1]
+4009 036	store	a[j]	
+3008 037	load 	temp
+400A 038	store	a[j-1]
+3007 039 dec	load	j	j--
+6004 03A	sub	one
+4007 03B	store	j
+C026 03C -----	jmp	loop2
+3001 03D inc	load	i	i++
+5004 03E	add	one
+4001 03F	store	i
+300B 040	load	nine	reset j to 9 (length-1)
+4007 041	store	j
+C022 042 -----	jmp	loop1
+3080 043 prnt	load	a[0]
+1800 044 	printH
+3081 045	load	a[1]
+1800 046	printH
+3082 047	load	a[2]
+1800 048	printH
+3083 049	load	a[3]
+1800 04A	printH
+3084 04B	load	a[4]
+1800 04C	printH
+3085 04D	load	a[5]
+1800 04E	printH
+3086 04F	load	a[6]
+1800 050	printH
+3087 051	load	a[7]
+1800 052	printH
+3088 053	load	a[8]
+1800 054	printH
+3089 055	load	a[9]
+1800 056	printH
+0000 057 xit	halt
+
+
+
+
+
+
+3003 022 loop1	load	n	if (i >= n) go to prnt
+6005 023	sub	i
+E05A 024	jmpl	prnt
+D05A 025	jmpe	prnt
+3006 026 loop2	load	j	if (j <= i) increment i and reset j
+6005 027	sub	i
+E053 028	jmpl	inc
+D053 029 	jmpe	inc
+3008 02A	load	sub	"subtract a[j]"
+5004 02B    	add	a
+5006 02C	add	j
+4034 02D	store	subit
+3009 02E	load	load	"load a[j-1]"
+5004 02F	add	a
+5006 030	add	j
+6002 031	sub	one
+4033 032	store	loadit
+0000 033 loadit dw	0	if (a[j] >= a[j-1]) decrement j
+0000 034 subit	dw	0
+E04F 035	jmpl	decj
+D04F 036	jmpe	decj
+3009 037	load	loadc	otherwise, swap: temp = a[j];
+5004 038	add	a
+5006 039	add	j
+403B 03A	store	loadit
+0000 03B loadit dw	0
+4007 03C    	store	tmp
+3009 03D 	load	load	a[j] = a[j-1];	
+5004 03E	add	a
+5006 03F	add	j
+6002 040	sub	one
+4046 041	store	loadit
+300A 042 	load	str
+5004 043	add	a
+5006 044	add	j
+4047 045	store	strit
+0000 046 loadit dw	0
+0000 047 strit	dw	0
+300A 048	load	str	a[j-1] = temp;
+5004 049	add	a
+5006 04A	add	j
+6002 04B	sub	one
+404E 04C	store	strit
+3007 04D 	load	tmp
+0000 04E strit	dw	0
+3006 04F dec	load	j	j--;
+6002 050	sub	one
+4006 051	store	j
+C026 052	jmp	sloop	repeat second loop
+3005 053 inc	load	i	i++;
+5002 054	add	one
+4005 055	store	i
+3003 056    	load	n	make j = 9 again
+6002 057	sub	one
+4006 058	store	j
+C022 059	jmp	loop1	go to loop1

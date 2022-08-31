@@ -1,0 +1,71 @@
+C014 000	jmp	start	skip around the variables
+0000 001 n	dw	0	int n for array size
+0000 002 i	dw	0	int i for index
+0000 003 zero	dw	0
+0001 004 one	dw	1
+3000 005 prtl1	dw	0	print location 1 for forwards print
+3000 006 prtl2	dw	0	print location 2 for backwards print
+4000 007 strl	dw	4000	store location
+0047 008 a	dw	0 	int a[]
+0000 009 			leave space for array changes
+0000 00A
+0000 00B
+0000 00C
+0000 00D
+0000 00E
+0000 00F
+0000 010
+0000 011
+0000 012
+0000 013
+1000 014 start	readH		read array size
+4001 015   	store	n
+3001 016 loop	load	n	if (i >= n) go to print forward
+6002 017 	sub	i
+E024 018	jmpl	pfloop
+D024 019	jmpe	pfloop
+3007 01A	load	strl
+5008 01B	add	a
+5002 01C	add	i
+401F 01D	store	doit
+1000 01E	readH		
+0000 01F doit	dw	0	
+3002 020	load	i	i++;
+5004 021	add	one
+4002 022	store	i
+C016 023	jmp	loop	go to loop
+3003 024 	load	zero	i = 0;
+4002 025 	store	i
+3001 026 pfloop	load	n	if (i >= n) go to print backward
+6002 027	sub	i
+E034 028	jmpl	pbloop
+D034 029	jmpe	pbloop
+3005 02A	load	prtl1
+5008 02B	add	a
+5002 02C	add	i
+402E 02D	store	doit
+0000 02E doit	dw	0
+1800 02F	printH
+3002 030	load	i	i++;
+5004 031	add	one
+4002 032	store	i
+C026 033	jmp	pfloop	go to loop
+3003 034 	load	zero	i = 0;
+4002 035 	store	i
+3001 036 pbloop	load	n	
+6002 037	sub	i
+E046 038	jmpl	xit	if (i >= n) go to xit
+D046 039	jmpe	xit
+3006 03A	load	prtl2
+5008 03B	add	a
+5001 03C	add	n
+6002 03D	sub	i
+6004 03E	sub	one
+4040 03F	store	doit
+0000 040 doit	dw	0
+1800 041	printH
+3002 042	load	i	i++;
+5004 043	add	one
+4002 044	store	i
+C036 045	jmp	pbloop	go to loop
+0000 046 xit	halt

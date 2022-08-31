@@ -1,0 +1,29 @@
+C009 000	jmp 	start 	skip around the variables
+0000 001 i 	dw 	0 	int i
+0000 002 j 	dw 	0 	int j
+0000 003 k 	dw 	0	int k
+0000 004 sum 	dw 	0	int sum
+0000 005
+0000 006
+0000 007
+0000 008 
+1000 009 start	readH		read first num
+4001 00A 	store	i		
+1000 00B 	readH		read second num
+4002 00C	store	j	
+1000 00D	readH		read third num
+4003 00E	store	k
+3001 00F	load	i
+5002 010	add	j
+5003 011	add 	k
+4004 012	store	sum	store accumulator value into sum variable
+1800 013	printH
+D016 014	jmpe	sum	if sum == 0, goto xit
+C009 015	jmp		goto start if sum != 0
+3001 016 xit	load	i	now, print the three variables
+1800 017	printH
+3002 018	load	j
+1800 019	printH
+3003 01A	load	k
+1800 01B	printH
+0000 01C	halt
