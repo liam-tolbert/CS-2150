@@ -1,0 +1,65 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+using namespace std;
+
+#include "binary_heap.h"
+
+int main(int argc, char** argv) {
+
+  unordered_map<string, int> freqTable;
+  
+  // verify the correct number of parameters
+  if (argc != 2) {
+      cout << "Must supply the input file name as the one and only parameter" << endl;
+      exit(1);
+  }
+
+  // attempt to open the supplied file
+  // ifstream stands for "input file stream"
+  ifstream file(argv[1]);
+  // if the file wasn't found, output an error message and exit
+  if (!file.is_open()) {
+      cout << "Unable to open '" << argv[1] << "' for reading" << endl;
+      exit(2);
+  }
+
+  // read in characters one by one, until reading fails (we hit the end of the file)
+  char g;
+
+  binary_heap* heap = new binary_heap();
+  
+  while (file.get(g)) {
+    if(freqTable.contains(g))
+    {
+      int freq = freqTable[g];
+      freqTable[g] = freq++;
+    }
+    else{
+      freqTable[g] = 1;
+    }
+  }
+
+  for(auto i : freqTable) {
+    
+  }
+
+  // close the file
+  file.close();
+
+  return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+#ifndef HEAP_H
+#define HEAP_H
+
+#include <vector>
+using namespace std;
+
+class heap {
+public:
+    heap();
+    heap(vector<int> vec);
+    ~heap();
+
+    void insert(int x);
+    int findMin();
+    int deleteMin();
+    unsigned int size();
+    void makeEmpty();
+    bool isEmpty();
+    void print();
+
+private:
+    vector<int> heap;
+    unsigned int size;
+
+    void percolateUp(int hole);
+    void percolateDown(int hole);
+};
+
+#endif
