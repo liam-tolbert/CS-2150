@@ -1,0 +1,40 @@
+#include <iostream>
+
+#include "stack.h"
+#include "List.h"
+#include "ListItr.h"
+
+using namespace std;
+
+// Liam Tolbert, lct4am, 9/15/2021, stack.cpp
+
+Stack::Stack(){
+  list = new List();
+}
+
+Stack::~Stack(){
+  delete list;
+}
+
+void Stack::push(int x){
+  list->insertAtTail(x);
+}
+
+int Stack::top(){
+  return !empty() ? list->last().retrieve() : NULL;
+}
+
+void Stack::pop(){
+  if(!empty()){
+     list->removeUsingItr(list->last());
+  }
+}
+
+int Stack::size(){
+  return list->size();
+}
+
+bool Stack::empty(){
+  return size() == 0;
+}
+

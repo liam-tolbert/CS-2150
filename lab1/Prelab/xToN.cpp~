@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+// Liam Tolbert, lct4am, 8/28/2021, xToN.cpp
+
+int xton(int x, int y)
+{
+  if(y < 1)
+    return 1;
+  return x * xton(x, y - 1);
+}
+
+int main()
+{
+  int x, y;
+  cin >> x;
+  cin >> y;
+  int z = xton(x, y);
+  cout << z << endl;
+  return 0;
+}

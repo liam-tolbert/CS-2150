@@ -1,0 +1,94 @@
+#include <string>
+#include <iostream>
+
+#include "postfixCalculator.h"
+#include "List.h"
+#include "ListItr.h"
+
+using namespace std;
+
+// Liam Tolbert, lct4am, 3/4/2021, postfixCalculator.cpp
+
+PostFixCalculator::PostFixCalculator(){
+  list = new List();
+}
+
+PostFixCalculator::~PostFixCalculator(){
+  delete list;
+}
+
+void PostFixCalculator::push(int x){
+  list->insertAtTail(x);
+}
+
+int PostFixCalculator::top(){
+  return list->last().retrieve();
+}
+
+void PostFixCalculator::pop(){
+  list->removeUsingItr(list->last());
+}
+
+bool PostFixCalculator::empty(){
+  return list->size() == 0;
+}
+
+void PostFixCalculator::input(string input){
+  if(input != "-"
+     && input != "+"
+     && input != "*"
+     && input != "/"
+     && input != "~"){
+    push(stoi(input));
+  }
+  else{
+    if(!empty()){
+      int operand1 = 0;
+      int operand2 = 0;
+      if(input == "+"){
+	operand1 = top();
+	pop();
+	operand2 = top();
+	pop();
+	push(operand1 + operand2);
+      }
+      else if(input == "-"){
+        operand1 = top();
+	pop();
+	operand2 = top();
+	pop();
+	push(operand2 - operand1);
+      }
+      else if(input == "*"){
+	operand1 = top();
+        pop();
+        operand2 = top();
+        pop();
+	push(operand1 * operand2);
+      }
+      else if(input == "/"){
+	operand1 = top();
+        pop();
+        operand2 = top();
+        pop();
+	push(operand2 / operand1);
+      }
+      else if(input == "~"){
+	operand1 = top();
+	pop();
+	push(operand1 * -1);
+      }
+      // no else here because nothing can happen if the character is someting other than the operators or integers
+    }
+  }
+}
+
+int PostFixCalculator::result(){
+  
+  if(!(list->size() > 1) && !empty()){
+    return top();
+  }
+  return 0;
+}
+
+

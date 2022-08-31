@@ -1,0 +1,18 @@
+#ifndef POSTFIXCALCULATOR_H
+#define POSTFIXCALCULATOR_H
+
+#include <stack>
+#include <string>
+using namespace std;
+
+class PostFixCalculator {
+ public:
+  PostFixCalculator();
+  ~PostFixCalculator();
+  void pushToStack(string input);
+  int result();
+ private:
+  stack <int> st;
+};
+
+#endif

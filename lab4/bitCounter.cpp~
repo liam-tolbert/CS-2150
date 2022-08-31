@@ -1,0 +1,87 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//Liam Tolbert, lct4am, 9/22/2021, bitCounter.cpp
+
+int countBits(int x);
+string convert(int base1, int base2, string num);
+
+int calculateValue(char c){
+  if(c >= '0' && c <= '9')
+    return (int)(c - '0');
+  else
+    return (int)(c - 'A' + 10);
+}
+
+char convertValueBack(int i){
+  if(i >= 0 && i <= 9)
+    return (char)(i + '0');
+  else
+    return (char)(i - 10 + 'A');
+}
+
+int main(int argc, char **argv){
+  int num1 = atoi(argv[1]);
+  cout << num1 << " has "<< countBits(num1) << " bit(s)" << endl;
+  string num2(argv[2]);
+
+  int base1 = atoi(argv[3]);
+  int base2 = atoi(argv[4]);
+
+  cout << num2 << " (base " << base1 << ") = "<< convert(base1, base2, num2) << " (base " << base2 << ")" << endl;
+}
+
+int countBits(int x){
+  if(x == 0)
+    return 0;
+  if((x & 1) == 1)
+    return countBits(x >> 1) + 1;
+  else
+    return countBits(x >> 1);
+}
+
+string convert(int base1, int base2, string num){
+  // first, convert base x (the variable base1) to base 10
+  int numLength = num.length();
+
+  int pow = 1;
+  int result1 = 0;
+
+  for(int i = numLength - 1; i >=0; i--){
+    result1 += pow * calculateValue(num[i]);
+    pow *= base1;
+  }
+
+  // result1 now holds base 10 value, now to convert it to base y (the variable base2)
+
+  int i = 0;
+  char result2[50];
+  while(result1 > 0){
+    // repeatedly dividing it by base2 and taking the remainder and putting that in the char list
+    result2[i] = convertValueBack(result1 % base2);
+    result1 /= base2;
+    i++;
+  }
+  int x = i;
+  result2[i] = '\0'; // end of char list needs null character
+
+  
+  // time to reverse the list
+  int length = sizeof(result2);
+  for(int i = 0; i < length/2; i++){
+    char temp = result2[i];
+    result2[i] = result2[length - i - 1];
+    result2[length - i - 1] = temp;
+  }
+
+  //need to convert the result char list to a string to return
+  
+  string resultStr = "";
+
+  for(int i = length - x - 1; i < length; i++){
+    resultStr +=  result2[i];
+  }
+  return resultStr;
+}
